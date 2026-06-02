@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>NutriMama – Crear cuenta</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Fuente Lato -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --pink-strong: #DA627D;
+            --pink-soft:  #FFA5AB;
+            --cream:      #FFE8D2;
+            --mint:       #B6E2BA;
+            --text-main:  #333333;
+            --text-muted: #7A7A7A;
+            --radius-xl:  26px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Lato", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            /* mismo fondo que el login */
+            background: linear-gradient(
+                135deg,
+                #FFE8D2 0%,
+                #FFF4F7 45%,
+                #FFA5AB 100%
+            );
+        }
+
+        .shell {
+            width: 100%;
+            max-width: 1380px;
+        }
+
+        .auth-card {
+            background: rgba(255,255,255,0.96);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 16px 50px rgba(0,0,0,0.12);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+            backdrop-filter: blur(14px);
+        }
+
+        /* PANEL IZQUIERDO – BRAND */
+        .brand-panel {
+            position: relative;
+            padding: 22px 28px 22px;
+            background: radial-gradient(circle at top left, #FFE8D2 0, #FFA5AB 36%, #DA627D 100%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .brand-logo {
+            width: 140px;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.18));
+        }
+
+        .tag-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            background: rgba(255,232,210,0.28);
+        }
+
+        .brand-main {
+            margin-top: 10px;
+            max-width: 300px;
+        }
+
+        .brand-title {
+            font-size: 24px; /* H1 más compacto */
+            font-weight: 900;
+            letter-spacing: 0.02em;
+            margin: 0 0 6px;
+        }
+
+        .brand-subtitle {
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Ilustración cuadrada */
+        .brand-illustration {
+            margin-top: 16px;
+            width: 190px;
+            height: 190px;
+            border-radius: 22px;
+            background: rgba(255,255,255,0.96);
+            padding: 10px;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.10);
+        }
+
+        .brand-illustration img {
+            width: 100%;
+            height: 100%;
+            border-radius: 18px;
+            object-fit: contain; /* se ve completa */
+        }
+
+        .brand-footer {
+            margin-top: auto;
+            padding-top: 12px;
+            font-size: 12px;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .badge-soft {
+            padding: 3px 9px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.22);
+            font-size: 11px;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(1px);
+            opacity: 0.7;
+        }
+
+        .bubble.b1 {
+            width: 110px;
+            height: 110px;
+            background: rgba(255,232,210,0.65);
+            top: -30px;
+            right: -25px;
+        }
+
+        .bubble.b2 {
+            width: 78px;
+            height: 78px;
+            background: rgba(182,226,186,0.7);
+            bottom: 22px;
+            right: 32px;
+        }
+
+        /* PANEL DERECHO – FORMULARIO */
+        .form-panel {
+            padding: 24px 30px 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .back-btn {
+            border: none;
+            background: transparent;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-muted);
+            padding: 5px 7px;
+            border-radius: 999px;
+            transition: background-color 0.15s;
+        }
+
+        .back-btn:hover {
+            background-color: #f1f1f1;
+        }
+
+        .small-note {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .small-note a {
+            color: var(--pink-strong);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .small-note a:hover {
+            text-decoration: underline;
+        }
+
+        .form-header h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .form-header p {
+            margin: 4px 0 18px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px 14px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: inline-block;
+            margin-bottom: 5px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        input, select {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid #e2e2e2;
+            padding: 10px 12px;
+            font-size: 14px;
+            background-color: #f9fbff;
+            transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+        }
+
+        input::placeholder {
+            color: #b4b4b4;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--pink-soft);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 2px rgba(255,165,171,0.3);
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: var(--pink-strong);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .error-message {
+            font-size: 12px;
+            color: #d9534f;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .btn-primary {
+            border: none;
+            width: 100%;
+            padding: 11px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--pink-strong), var(--pink-soft));
+            color: #fff;
+            cursor: pointer;
+            margin-top: 16px;
+            box-shadow: 0 12px 24px rgba(218,98,125,0.35);
+            transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.15s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.97;
+            transform: translateY(-1px);
+            box-shadow: 0 16px 30px rgba(218,98,125,0.42);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 9px 20px rgba(218,98,125,0.30);
+        }
+
+        .status {
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+        .status.error {
+            color: #d9534f;
+            display: none;
+        }
+
+        .status.loading {
+            color: var(--text-muted);
+            display: none;
+        }
+
+        .signup {
+            margin-top: 14px;
+            font-size: 13px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .signup a {
+            color: var(--pink-strong);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .signup a:hover {
+            text-decoration: underline;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .auth-card {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-panel {
+                order: -1;
+                padding: 20px 22px 22px;
+            }
+
+            .form-panel {
+                padding: 20px 22px 22px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 14px;
+            }
+
+            .auth-card {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-panel {
+                display: none; /* quita esta línea si lo quieres ver también en móvil */
+            }
+
+            .form-panel {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="shell">
+    <div class="auth-card">
+
+        <!-- BRAND -->
+        <section class="brand-panel">
+            <div class="brand-header">
+                <img src="img/logo-preview.png" alt="NutriMama" class="brand-logo">
+                <div class="tag-pill">
+                    🤰 <span>Registro rápido y seguro</span>
+                </div>
+            </div>
+
+            <div class="brand-main">
+                <h2 class="brand-title">Crea tu cuenta NutriMama.</h2>
+                <p class="brand-subtitle">
+                    Guarda tus datos de gestación, síntomas y alergias para recibir recomendaciones
+                    de alimentación hechas a tu medida en cada etapa del embarazo.
+                </p>
+            </div>
+
+            <div class="brand-illustration">
+                <!-- usa cualquiera de tus imágenes -->
+                <img src="img/login1.webp" alt="Gestante NutriMama">
+            </div>
+
+            <div class="brand-footer">
+                <span class="badge-soft">+ IA Nutricional</span>
+                <span>Empieza en menos de 1 minuto 💗</span>
+            </div>
+
+            <span class="bubble b1"></span>
+            <span class="bubble b2"></span>
+        </section>
+
+        <!-- FORMULARIO -->
+        <section class="form-panel">
+            <div class="form-top">
+                <button class="back-btn" onclick="window.location.href='/login'">←</button>
+                <div class="small-note">
+                    ¿Ya tienes cuenta?
+                    <a href="/login">Inicia sesión</a>
+                </div>
+            </div>
+
+            <div class="form-header">
+                <h1>Regístrate</h1>
+                <p>Completa tus datos para crear tu perfil NutriMama.</p>
+            </div>
+
+            <form id="registrationForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="firstName">Primer nombre</label>
+                        <input type="text" id="firstName" placeholder="Tu primer nombre" required>
+                        <div class="error-message" id="firstNameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Apellido</label>
+                        <input type="text" id="lastName" placeholder="Tu apellido" required>
+                        <div class="error-message" id="lastNameError"></div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" placeholder="tucorreo@ejemplo.com" required>
+                        <div class="error-message" id="emailError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <div class="password-container">
+                            <input type="password" id="password" placeholder="Mínimo 6 caracteres" required>
+                            <button type="button" class="toggle-password" data-target="password">Ver</button>
+                        </div>
+                        <div class="error-message" id="passwordError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirma tu contraseña</label>
+                        <div class="password-container">
+                            <input type="password" id="confirmPassword" placeholder="Vuelve a escribirla" required>
+                            <button type="button" class="toggle-password" data-target="confirmPassword">Ver</button>
+                        </div>
+                        <div class="error-message" id="confirmPasswordError"></div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="gestationWeek">Semana de gestación</label>
+                        <select id="gestationWeek" required>
+                            <option value="">Selecciona tu semana de gestación</option>
+                        </select>
+                        <div class="error-message" id="gestationWeekError"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary" id="submitBtn">Crear cuenta</button>
+
+                <div class="status error" id="formError"></div>
+                <div class="status loading" id="loader">Creando tu cuenta...</div>
+            </form>
+
+            <div class="signup">
+                ¿Prefieres iniciar sesión?
+                <a href="/login">Ingresa aquí</a>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<script>
+    // Rellenar semanas de gestación
+    const weekSelect = document.getElementById('gestationWeek');
+    for (let i = 4; i <= 42; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = `Semana ${i}`;
+        weekSelect.appendChild(opt);
+    }
+
+    // Mostrar / ocultar contraseña
+    document.querySelectorAll('.toggle-password').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.getAttribute('data-target');
+            const field = document.getElementById(targetId);
+            if (field.type === 'password') {
+                field.type = 'text';
+                btn.textContent = 'Ocultar';
+            } else {
+                field.type = 'password';
+                btn.textContent = 'Ver';
+            }
+        });
+    });
+
+    function showFieldError(id, message) {
+        const input = document.getElementById(id);
+        const errorEl = document.getElementById(id + 'Error');
+        if (input && errorEl) {
+            input.style.borderColor = '#d9534f';
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+        }
+    }
+
+    function clearFieldError(id) {
+        const input = document.getElementById(id);
+        const errorEl = document.getElementById(id + 'Error');
+        if (input && errorEl) {
+            input.style.borderColor = '#e2e2e2';
+            errorEl.style.display = 'none';
+        }
+    }
+
+    document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const ids = ['firstName','lastName','email','password','confirmPassword','gestationWeek'];
+        ids.forEach(clearFieldError);
+
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName  = document.getElementById('lastName').value.trim();
+        const email     = document.getElementById('email').value.trim();
+        const password  = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const gestationWeek   = document.getElementById('gestationWeek').value;
+
+        let valid = true;
+
+        if (!firstName) { showFieldError('firstName', 'Ingresa tu nombre'); valid = false; }
+        if (!lastName)  { showFieldError('lastName', 'Ingresa tu apellido'); valid = false; }
+
+        if (!email) {
+            showFieldError('email', 'Ingresa tu correo');
+            valid = false;
+        } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+            showFieldError('email', 'Correo inválido');
+            valid = false;
+        }
+
+        if (!password) {
+            showFieldError('password', 'Crea una contraseña');
+            valid = false;
+        } else if (password.length < 6) {
+            showFieldError('password', 'Debe tener al menos 6 caracteres');
+            valid = false;
+        }
+
+        if (!confirmPassword) {
+            showFieldError('confirmPassword', 'Confirma tu contraseña');
+            valid = false;
+        } else if (password !== confirmPassword) {
+            showFieldError('confirmPassword', 'Las contraseñas no coinciden');
+            valid = false;
+        }
+
+        if (!gestationWeek) {
+            showFieldError('gestationWeek', 'Selecciona tu semana de gestación');
+            valid = false;
+        }
+
+        if (!valid) return;
+
+        const formError = document.getElementById('formError');
+        const loader    = document.getElementById('loader');
+        const submitBtn = document.getElementById('submitBtn');
+
+        formError.style.display = 'none';
+        loader.style.display = 'block';
+        submitBtn.disabled = true;
+
+        const body = {
+            firstName,
+            lastName,
+            email,
+            password,
+            gestationWeek: parseInt(gestationWeek)
+        };
+
+        try {
+            const res = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.message || 'Ocurrió un error al registrar');
+            }
+
+            // Registro OK -> redirigir al login
+            window.location.href = '/login?registered=true';
+
+        } catch (err) {
+            formError.textContent = err.message;
+            formError.style.display = 'block';
+        } finally {
+            loader.style.display = 'none';
+            submitBtn.disabled = false;
+        }
+    });
+</script>
+
+</body>
+</html>

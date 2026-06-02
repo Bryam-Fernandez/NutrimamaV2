@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NutriMama – Tu Perfil Materno</title>
+
+    <!-- Fuente Lato -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== VARIABLES PREMIUM ===== */
+        :root {
+            --pink-strong: #DA627D;
+            --pink-soft:   #FFA5AB;
+            --pink-light:  #FFF0F3;
+            --cream:       #FFE8D2;
+            --mint:        #A7D7C5;
+            --bg-body:     #FDFBFB;
+            --text-main:   #2C363F;
+            --text-muted:  #8A929A;
+            --white:       #FFFFFF;
+            --radius-xl:   32px;
+            --radius-lg:   24px;
+            --radius-md:   16px;
+            --shadow-sm:   0 4px 12px rgba(218, 98, 125, 0.05);
+            --shadow-md:   0 12px 30px rgba(218, 98, 125, 0.08);
+            --transition:  all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Lato', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ===== FONDOS AMBIENTALES (GLASSMORPHISM) ===== */
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            background: linear-gradient(135deg, #FFF4F7 0%, var(--bg-body) 100%);
+            overflow: hidden;
+        }
+
+        .ambient-light {
+            position: absolute; border-radius: 50%;
+            filter: blur(80px); opacity: 0.5;
+            animation: float 15s infinite alternate ease-in-out;
+        }
+
+        .ambient-light.pink { width: 60vw; height: 60vw; max-width: 600px; max-height: 600px; background: var(--pink-soft); top: -10%; left: -10%; }
+        .ambient-light.cream { width: 50vw; height: 50vw; max-width: 500px; max-height: 500px; background: var(--cream); bottom: -10%; right: -10%; animation-delay: -5s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(40px, -40px) scale(1.05); }
+        }
+
+        /* ===== HEADER NAVBAR FLOTANTE ===== */
+        .header-nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 40px; z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+
+        .header-brand {
+            font-weight: 900; font-size: 22px;
+            background: linear-gradient(135deg, var(--pink-strong), #C44B66);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .logout-btn {
+            background: var(--white); color: var(--text-muted);
+            padding: 8px 20px; border-radius: 999px;
+            text-decoration: none; font-weight: 700; font-size: 14px;
+            border: 1px solid #EBEBEB; transition: var(--transition);
+        }
+        .logout-btn:hover { background: #FFF0F0; color: #DC2626; border-color: transparent; transform: translateY(-1px); }
+
+        /* ===== CONTENEDOR PRINCIPAL ===== */
+        .page-wrapper {
+            padding: 100px 20px 60px; /* Espacio para el header fijo */
+            display: flex; justify-content: center;
+        }
+
+        .container { width: 100%; max-width: 800px; }
+
+        .page-header { text-align: center; margin-bottom: 40px; }
+        .page-title { font-size: 32px; font-weight: 900; color: var(--text-main); margin-bottom: 12px; letter-spacing: -0.02em;}
+        .page-subtitle { font-size: 16px; color: var(--text-muted); line-height: 1.6; max-width: 600px; margin: 0 auto;}
+
+        /* ===== TARJETAS DE SECCIÓN (CARDS) ===== */
+        .form-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius-lg);
+            padding: 32px; margin-bottom: 24px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.03), inset 0 0 0 1px rgba(255,255,255,0.5);
+        }
+
+        .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+        .section-icon {
+            width: 40px; height: 40px; border-radius: 12px;
+            background: var(--pink-light); color: var(--pink-strong);
+            display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900;
+        }
+        .section-title { font-size: 20px; font-weight: 800; color: var(--text-main); margin: 0;}
+
+        /* ===== INPUTS Y GRILLES ===== */
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .input-group { margin-bottom: 20px; }
+
+        label { display: block; font-weight: 700; color: var(--text-main); font-size: 14px; margin-bottom: 8px;}
+
+        input[type="text"], input[type="number"], textarea, select {
+            width: 100%; padding: 14px 16px;
+            border: 2px solid #F3F4F6; border-radius: 14px;
+            font-size: 15px; font-family: inherit;
+            background-color: #F9FAFB; color: var(--text-main);
+            transition: var(--transition);
+            appearance: none; /* Para select limpio */
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none; background-color: var(--white);
+            border-color: var(--pink-soft);
+            box-shadow: 0 0 0 4px rgba(255, 165, 171, 0.15);
+        }
+
+        input[readonly] {
+            background-color: #F3F4F6; color: var(--text-muted); border-color: transparent;
+            cursor: not-allowed;
+        }
+
+        textarea { resize: vertical; min-height: 90px; }
+        .helper { font-size: 12px; color: var(--text-muted); margin-top: 6px; font-weight: 500;}
+
+        /* Contenedor select con flecha personalizada */
+        .select-wrapper { position: relative; }
+        .select-wrapper::after {
+            content: "▼"; position: absolute; right: 16px; top: 50%;
+            transform: translateY(-50%); font-size: 12px; color: var(--text-muted); pointer-events: none;
+        }
+
+        /* ===== CHECKBOXES COMO "CHIPS/PÍLDORAS" (UX MODERN) ===== */
+        .chip-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+        
+        .chip-label { cursor: pointer; display: inline-flex; position: relative; }
+        .chip-label input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; }
+        
+        .chip-text {
+            padding: 10px 18px;
+            background: var(--white);
+            border: 2px solid #F3F4F6;
+            border-radius: 999px;
+            font-size: 14px; font-weight: 600;
+            color: var(--text-muted);
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .chip-label:hover .chip-text { border-color: var(--pink-soft); background: var(--pink-light); }
+        
+        /* Cuando el checkbox oculto está marcado, cambia el estilo del span hermano (chip-text) */
+        .chip-label input[type="checkbox"]:checked ~ .chip-text {
+            background: var(--pink-strong);
+            border-color: var(--pink-strong);
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(218, 98, 125, 0.3);
+        }
+
+        /* ===== BOTÓN SUBMIT FLOTANTE ===== */
+        .submit-wrapper {
+            position: sticky; bottom: 24px; z-index: 100;
+            display: flex; justify-content: center; margin-top: 40px;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--pink-strong) 0%, #C44B66 100%);
+            border: none; padding: 18px 40px;
+            color: var(--white); font-size: 16px; font-weight: 800;
+            border-radius: 999px; cursor: pointer;
+            box-shadow: 0 10px 25px rgba(218, 98, 125, 0.4);
+            transition: var(--transition);
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        .btn-submit:hover { transform: translateY(-4px); box-shadow: 0 15px 35px rgba(218, 98, 125, 0.5); }
+        .btn-submit:active { transform: translateY(0); box-shadow: 0 5px 15px rgba(218, 98, 125, 0.4); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header-nav { padding: 16px 20px; }
+            .page-wrapper { padding-top: 90px; }
+            .form-card { padding: 24px; border-radius: 20px; }
+            .grid-2 { grid-template-columns: 1fr; gap: 0; }
+            .page-title { font-size: 26px; }
+            .submit-wrapper { bottom: 16px; }
+            .btn-submit { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Fondos Ambientales -->
+<div class="ambient-bg">
+    <div class="ambient-light pink"></div>
+    <div class="ambient-light cream"></div>
+</div>
+
+<!-- Header de Navegación -->
+<header class="header-nav">
+    <div class="header-brand">
+        🌸 NutriMama
+    </div>
+    <a class="logout-btn" th:href="@{/logout}">Cerrar sesión</a>
+</header>
+
+<div class="page-wrapper">
+    <div class="container">
+
+        <div class="page-header">
+            <h1 class="page-title">Datos de la mamá</h1>
+            <p class="page-subtitle">
+                Personaliza tu perfil para que nuestra IA pueda adaptar tus planes de alimentación y consejos médicos de manera perfecta para ti y tu bebé.
+            </p>
+        </div>
+
+        <form th:action="@{/formulario-mama}" th:object="${mamaProfileRequest}" method="post">
+
+            <!-- TARJETA 1: PERFIL PERSONAL -->
+            <div class="form-card">
+                <div class="section-header">
+                    <div class="section-icon">👤</div>
+                    <h3 class="section-title">Perfil Personal</h3>
+                </div>
+
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label>Nombres</label>
+                        <input type="text" th:field="*{nombre}" readonly>
+                        <p class="helper">🔒 Tomado de tu registro seguro.</p>
+                    </div>
+                    <div class="input-group">
+                        <label>Apellidos</label>
+                        <!-- Conservando exactamente tu lógica de Thymeleaf -->
+                        <input type="text" th:value="${usuario.lastName}" readonly>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label>Edad</label>
+                        <input type="number" min="10" max="60" th:field="*{edad}" placeholder="Ej: 28">
+                    </div>
+                    <div class="input-group">
+                        <label>Semanas de gestación</label>
+                        <input type="number" min="1" max="40" th:field="*{semanas}" placeholder="Ej: 14">
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label>Peso actual (kg)</label>
+                        <input type="number" step="0.1" th:field="*{peso}" placeholder="Ej: 65.5">
+                    </div>
+                    <div class="input-group">
+                        <label>Talla (cm)</label>
+                        <input type="number" th:field="*{talla}" placeholder="Ej: 165">
+                    </div>
+                </div>
+            </div>
+
+            <!-- TARJETA 2: SALUD Y CONDICIONES -->
+            <div class="form-card">
+                <div class="section-header">
+                    <div class="section-icon">🩺</div>
+                    <h3 class="section-title">Salud Médica</h3>
+                </div>
+
+                <div class="input-group">
+                    <label>Condiciones médicas preexistentes</label>
+                    <div class="chip-group">
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{condiciones}" value="anemia">
+                            <span class="chip-text">🩸 Anemia</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{condiciones}" value="diabetes_gestacional">
+                            <span class="chip-text">🍬 Diabetes gestacional</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{condiciones}" value="hipertension">
+                            <span class="chip-text">❤️ Hipertensión</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{condiciones}" value="problemas_tiroideos">
+                            <span class="chip-text">🦋 Problemas tiroideos</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Suplementos actuales</label>
+                    <div class="chip-group">
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{suplementos}" value="hierro">
+                            <span class="chip-text">💊 Hierro</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{suplementos}" value="acido_folico">
+                            <span class="chip-text">🌿 Ácido fólico</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{suplementos}" value="calcio">
+                            <span class="chip-text">🥛 Calcio</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Alergias</label>
+                    <textarea th:field="*{alergias}" placeholder="Ej: mariscos, penicilina, frutos secos..."></textarea>
+                    <p class="helper">Incluye alimentos, medicamentos o componentes.</p>
+                </div>
+
+                <div class="input-group">
+                    <label>Medicación</label>
+                    <textarea th:field="*{medicacion}" placeholder="Nombre del medicamento, dosis y frecuencia..."></textarea>
+                </div>
+            </div>
+
+            <!-- TARJETA 3: SÍNTOMAS -->
+            <div class="form-card">
+                <div class="section-header">
+                    <div class="section-icon">🤒</div>
+                    <h3 class="section-title">Síntomas Actuales</h3>
+                </div>
+
+                <div class="input-group">
+                    <label>¿Qué síntomas presentas regularmente?</label>
+                    <div class="chip-group">
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{sintomas}" value="nauseas">
+                            <span class="chip-text">🤢 Náuseas</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{sintomas}" value="vomitos">
+                            <span class="chip-text">🤮 Vómitos</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{sintomas}" value="acidez">
+                            <span class="chip-text">🔥 Acidez</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{sintomas}" value="hinchazon">
+                            <span class="chip-text">🎈 Hinchazón</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{sintomas}" value="dolor_lumbar">
+                            <span class="chip-text">⚡ Dolor lumbar</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{sintomas}" value="fiebre">
+                            <span class="chip-text">🌡️ Fiebre</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TARJETA 4: ESTILO DE VIDA Y NUTRICIÓN -->
+            <div class="form-card">
+                <div class="section-header">
+                    <div class="section-icon">🥗</div>
+                    <h3 class="section-title">Estilo de Vida y Nutrición</h3>
+                </div>
+
+                <div class="input-group">
+                    <label>Preferencias y Hábitos Alimenticios</label>
+                    <div class="chip-group">
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{habitos}" value="vegetariana">
+                            <span class="chip-text">🥕 Vegetariana</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{habitos}" value="vegana">
+                            <span class="chip-text">🌱 Vegana</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{habitos}" value="sin_cerdo">
+                            <span class="chip-text">🚫 Sin cerdo</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{habitos}" value="sin_lactosa">
+                            <span class="chip-text">🥛 Sin lactosa</span>
+                        </label>
+                        <label class="chip-label">
+                            <input type="checkbox" th:field="*{habitos}" value="sin_frutos_secos">
+                            <span class="chip-text">🥜 Sin frutos secos</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Alimentos que no te gustan</label>
+                    <textarea th:field="*{noGusta}" placeholder="Ej: hígado, yogurt, brócoli..."></textarea>
+                    <p class="helper">La IA excluirá estos alimentos de tus recetas recomendadas.</p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="input-group">
+                        <label>Nivel de actividad física</label>
+                        <div class="select-wrapper">
+                            <select th:field="*{actividad}">
+                                <option value="" disabled selected>Selecciona tu nivel</option>
+                                <option value="sedentaria">🛋️ Sedentaria</option>
+                                <option value="ligera">🚶‍♀️ Ligera</option>
+                                <option value="moderada">🏃‍♀️ Moderada</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Horas de sueño promedio</label>
+                        <input type="number" min="0" max="24" th:field="*{horasSueno}" placeholder="Ej: 7">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón de Envío Flotante -->
+            <div class="submit-wrapper">
+                <button type="submit" class="btn-submit">
+                    Guardar Perfil y Continuar 
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                </button>
+            </div>
+            
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>

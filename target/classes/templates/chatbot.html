@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NutriMama · neogenesis</title>
+    
+    <!-- Fuentes atípicas: Plus Jakarta Sans + Fraunces (variable) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 
+         * NUTRI MAMA · NEO-ORGANIC v2.0 (con funcionalidad original)
+         * ---------------------------------
+         * Filosofía: “Arquitectura líquida + calma digital”
+         * — Eliminados los bordes duros, formas geométricas tradicionales.
+         * — Escala armónica basada en la proporción aúrea.
+         * — Sistema de “burbujas temporales” para mensajes.
+         * — Calendario “bio-cromatico” con tipografía versalita.
+         * — JavaScript 100% funcional original
+         */
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --nutri-base: #1A1E2B;        /* azul medianoche suave */
+            --nutri-accent: #C4627E;       /* rosa petalo intenso pero sereno */
+            --nutri-soft: #F2DCE2;          /* rosa polvo casi transparente */
+            --nutri-cream: #FFF3E9;          /* crema natural */
+            --nutri-glass: rgba(255, 245, 240, 0.6);
+            --nutri-aura-start: #FFF1ED;
+            --nutri-aura-end: #FDEFF2;
+            --radius-blob: 75% 25% 60% 40% / 40% 60% 30% 70%;
+            --radius-blob--small: 40% 60% 30% 70% / 60% 30% 70% 40%;
+            --font-display: 'Fraunces', serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --shadow-ambient: 0 20px 50px -20px rgba(196, 98, 126, 0.3), inset 0 0 0 1px rgba(255,255,255,0.7);
+            --transition-morph: all 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: radial-gradient(ellipse at 30% 40%, var(--nutri-aura-start), var(--nutri-aura-end) 80%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            position: relative;
+            color: var(--nutri-base);
+        }
+
+        /* FONDO ANIMADO + MANCHAS VITREAS — NUNCA IGUAL */
+        .biosphere {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            overflow: hidden;
+        }
+        .biosphere__cell {
+            position: absolute;
+            background: radial-gradient(circle at 30% 30%, rgba(255,230,220,0.5), rgba(196,98,126,0.1) 70%);
+            border-radius: var(--radius-blob);
+            filter: blur(45px);
+            animation: bio-drift 22s infinite alternate ease-in-out;
+        }
+        .biosphere__cell:nth-child(1) {
+            width: 65vmax; height: 65vmax;
+            top: -20%; left: -20%;
+            background: radial-gradient(circle, #FFD9D0, #FFB6B0 80%);
+            animation-duration: 27s;
+        }
+        .biosphere__cell:nth-child(2) {
+            width: 70vmin; height: 70vmin;
+            bottom: 0; right: 0;
+            background: radial-gradient(circle, #F2DCE2, #C4627E 90%);
+            filter: blur(60px);
+            animation-direction: alternate-reverse;
+            animation-duration: 19s;
+        }
+        .biosphere__cell:nth-child(3) {
+            width: 40vmax; height: 40vmax;
+            left: 40%; top: 20%;
+            background: #FCE9E6;
+            filter: blur(50px);
+            opacity: 0.6;
+            animation: bio-float 24s infinite alternate;
+        }
+
+        @keyframes bio-drift {
+            0% { transform: translate(0,0) scale(1) rotate(0deg); border-radius: var(--radius-blob); }
+            100% { transform: translate(6%, -8%) scale(1.2) rotate(8deg); border-radius: var(--radius-blob--small); }
+        }
+        @keyframes bio-float {
+            0% { transform: translateY(0) scale(1); opacity: 0.5; }
+            100% { transform: translateY(-40px) scale(1.3); opacity: 0.3; }
+        }
+
+        /* CONTENEDOR PRINCIPAL — ORGANICO TOTAL */
+        .womb {
+            width: 100%;
+            max-width: 1440px;
+            height: calc(100vh - 32px);
+            border-radius: 55px 35px 65px 25px / 45px 55px 35px 65px;
+            background: rgba(255, 250, 245, 0.4);
+            backdrop-filter: blur(25px) saturate(160%);
+            -webkit-backdrop-filter: blur(25px) saturate(160%);
+            box-shadow: 0 35px 80px -20px rgba(90, 50, 60, 0.25), inset 0 2px 1px rgba(255,255,255,0.8);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 245, 235, 0.8);
+        }
+
+        /* TRILOGÍA DE PANELES CON FORMAS IRREGULARES */
+        .triple-helix {
+            display: grid;
+            grid-template-columns: 280px 1.4fr 320px;
+            gap: 16px;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* ESTILO BASE DE PANELES — BORDES FLUIDOS */
+        .panel {
+            background: rgba(255, 245, 240, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 45px 25px 55px 35px / 35px 45px 25px 55px;
+            box-shadow: 0 15px 35px -15px rgba(0,0,0,0.1), inset 0 1px 2px rgba(255,255,255,0.9);
+            padding: 22px 16px;
+            border: 1px solid rgba(255, 250, 245, 0.9);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            transition: border-radius 0.4s ease;
+        }
+        .panel:hover {
+            border-radius: 40px 35px 45px 30px / 30px 50px 30px 50px;
+        }
+
+        /* HISTORIAL — CONVERSACIONES FLOTANTES */
+        .history-scroll {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--nutri-accent) transparent;
+        }
+        .history-scroll::-webkit-scrollbar { width: 4px; }
+        .history-scroll::-webkit-scrollbar-thumb { background: var(--nutri-accent); border-radius: 99px; }
+
+        .chat-cluster {
+            background: rgba(255, 240, 235, 0.3);
+            border-radius: 30px 12px 30px 12px;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 220, 210, 0.3);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+        }
+        .chat-cluster:hover {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: var(--nutri-soft);
+        }
+        .chat-cluster-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 16px 18px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 500;
+            text-align: left;
+            color: var(--nutri-base);
+            border-radius: inherit;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: font-weight 0.2s;
+        }
+        .chat-cluster-btn.active {
+            font-weight: 800;
+            color: var(--nutri-accent);
+            text-shadow: 0 0 6px rgba(196,98,126,0.2);
+        }
+        .cluster-actions {
+            display: flex;
+            padding-right: 10px;
+            gap: 6px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .chat-cluster:hover .cluster-actions { opacity: 1; }
+        .pin-cluster, .delete-cluster {
+            background: transparent;
+            border: none;
+            width: 32px; height: 32px;
+            border-radius: 30% 70% 20% 80% / 50% 40% 60% 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--nutri-base);
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(4px);
+            transition: 0.15s;
+        }
+        .pin-cluster.fijado { color: var(--nutri-accent); background: var(--nutri-soft); opacity: 1; }
+        .delete-cluster:hover { background: #fcd6d0; color: #b0003a; }
+
+        /* BOTON NUEVO CHAT */
+        .new-chat-button {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,240,230,0.9);
+            border-radius: 60px 25px 60px 25px;
+            padding: 14px 18px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--nutri-accent);
+            margin-bottom: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            box-shadow: 0 10px 18px -15px var(--nutri-accent);
+        }
+        .new-chat-button:hover {
+            background: white;
+            border-radius: 30px 55px 30px 55px;
+            box-shadow: 0 18px 30px -18px var(--nutri-accent);
+        }
+
+        /* ===== CHAT MAIN: BURBUJAS NEO-ORGANICAS ===== */
+        .chat-main-panel {
+            background: rgba(255, 240, 235, 0.4);
+            backdrop-filter: blur(20px);
+            padding: 0;
+        }
+
+        .chat-header-orbital {
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            border-bottom: 2px dashed rgba(196, 98, 126, 0.2);
+        }
+        .orb-avatar {
+            width: 54px; height: 54px;
+            background: linear-gradient(145deg, #FCC5C0, #C4627E);
+            border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 20px;
+            color: white;
+            box-shadow: 0 8px 18px -6px var(--nutri-accent);
+            animation: avatar-breathe 7s infinite alternate;
+        }
+        @keyframes avatar-breathe {
+            0% { border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%; transform: scale(1); }
+            100% { border-radius: 60% 40% 70% 30% / 40% 60% 30% 70%; transform: scale(1.02); }
+        }
+        .orbital-name {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: -0.01em;
+        }
+        .orbital-status {
+            font-size: 12px;
+            opacity: 0.6;
+            font-weight: 400;
+        }
+
+        /* CUERPO DE CHAT — EFECTO "NUBE" */
+        .chat-body-atmos {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message-bubble {
+            max-width: 78%;
+            padding: 18px 22px;
+            font-size: 14.5px;
+            line-height: 1.5;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 250, 245, 0.9);
+            box-shadow: 0 8px 18px -16px rgba(0,0,0,0.2);
+            transition: border-radius 0.3s;
+            word-break: break-word;
+        }
+        .message-bubble.bot {
+            align-self: flex-start;
+            border-radius: 30px 30px 30px 8px;
+            background: rgba(255, 245, 240, 0.9);
+        }
+        .message-bubble.user {
+            align-self: flex-end;
+            border-radius: 30px 30px 8px 30px;
+            background: var(--nutri-accent);
+            color: white;
+            border-color: transparent;
+        }
+        .bubble-title {
+            font-weight: 800;
+            font-size: 12px;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            opacity: 0.7;
+            font-family: var(--font-display);
+        }
+        .user .bubble-title { color: rgba(255,255,255,0.9); }
+
+        /* TYPING INDICATOR ORIGINAL ADAPTADO */
+        .typing-dots {
+            display: flex;
+            gap: 6px;
+            padding: 8px 0;
+        }
+        .typing-dots span {
+            width: 8px; height: 8px;
+            background: var(--nutri-accent);
+            border-radius: 50%;
+            animation: wave 1.2s infinite ease-in-out both;
+        }
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0s; }
+        @keyframes wave {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-8px); opacity: 1; }
+        }
+
+        /* BARRA DE ENVÍO IRREGULAR */
+        .send-area {
+            padding: 0 20px 20px;
+        }
+        .send-field {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 80px 30px 80px 30px;
+            display: flex;
+            align-items: center;
+            padding: 6px 6px 6px 20px;
+            border: 1px solid rgba(255,255,255,0.9);
+        }
+        .send-field input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 14px 6px;
+            font-family: var(--font-body);
+            font-size: 15px;
+            outline: none;
+            color: var(--nutri-base);
+        }
+        .send-field input::placeholder { color: #B7A6A0; }
+        .send-field button {
+            background: var(--nutri-accent);
+            border: none;
+            width: 48px; height: 48px;
+            border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 6px 18px -10px var(--nutri-accent);
+        }
+        .send-field button:hover {
+            border-radius: 60% 40% 70% 30% / 40% 60% 30% 70%;
+            background: #B14F6B;
+        }
+        .send-field button svg { width: 18px; height: 18px; fill: currentColor; }
+        
+        .quick-symptom {
+            background: transparent;
+            border: 1px dashed var(--nutri-accent);
+            border-radius: 99px;
+            padding: 10px 18px;
+            font-size: 13px;
+            color: var(--nutri-accent);
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            transition: 0.2s;
+            width: 100%;
+        }
+        .quick-symptom:hover {
+            background: var(--nutri-soft);
+            border-style: solid;
+        }
+
+        /* PANEL DERECHO — PERFIL + CALENDARIO BIO */
+        .profile-tag {
+            background: rgba(255,255,255,0.35);
+            backdrop-filter: blur(10px);
+            border-radius: 50px 20px 50px 20px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .week-petal {
+            width: 60px; height: 60px;
+            background: white;
+            border-radius: 35% 65% 25% 75% / 45% 40% 60% 55%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--nutri-accent);
+            box-shadow: inset -2px -2px 8px rgba(0,0,0,0.02), inset 3px 3px 10px white;
+        }
+
+        /* CALENDARIO LUNAR - TOTALMENTE ÚNICO */
+        .lunar-calendar {
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 45px 25px 55px 35px;
+            padding: 22px 16px;
+            margin: 16px 0;
+        }
+        .lunar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 18px;
+        }
+        .nav-petal {
+            background: rgba(255,255,255,0.5);
+            border: none;
+            width: 36px; height: 36px;
+            border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--nutri-accent);
+            transition: 0.2s;
+        }
+        .nav-petal:hover { background: white; }
+        
+        .lunar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            margin: 16px 0 8px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #795A64;
+        }
+        .lunar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+        }
+        .lunar-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 30% 70% 20% 80% / 40% 40% 60% 60%;
+            background: rgba(255, 240, 235, 0.3);
+            backdrop-filter: blur(4px);
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+        }
+        .lunar-day:hover { background: rgba(255, 255, 255, 0.7); }
+        .lunar-day.today {
+            background: var(--nutri-accent);
+            color: white;
+            font-weight: 800;
+            box-shadow: 0 2px 16px rgba(196,98,126,0.4);
+        }
+        .lunar-day.has-event::after {
+            content: '';
+            display: block;
+            width: 5px; height: 5px;
+            background: var(--nutri-accent);
+            border-radius: 50%;
+            margin-top: 2px;
+        }
+        .lunar-day.today.has-event::after { background: white; }
+        .lunar-day.other-month { opacity: 0.3; }
+
+        .event-cluster {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            border-radius: 30px 15px 30px 15px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .event-item, .upcoming-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(196,98,126,0.2);
+        }
+        .event-item:last-child, .upcoming-item:last-child { border-bottom: none; }
+        
+        .event-icon-box {
+            width: 32px; height: 32px;
+            background: white;
+            border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .event-title { font-weight: 700; font-size: 13px; }
+        .event-time { font-size: 11px; opacity: 0.6; }
+
+        .action-blob {
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255,220,210,0.8);
+            border-radius: 80px 20px 80px 20px;
+            padding: 14px;
+            font-weight: 700;
+            color: var(--nutri-accent);
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 8px 0;
+            width: 100%;
+            font-family: var(--font-body);
+        }
+        .action-blob:hover {
+            background: white;
+            border-radius: 40px 60px 40px 60px;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px dashed rgba(196,98,126,0.3);
+            border-radius: 60px 20px 60px 20px;
+            padding: 14px;
+            color: #6F4F5A;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        /* MODALES NEO (con estilos originales adaptados) */
+        .modal-membrane {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 8, 12, 0.3);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .modal-organic {
+            background: rgba(255, 250, 245, 0.8);
+            backdrop-filter: blur(40px);
+            border-radius: 70px 30px 70px 30px;
+            padding: 36px;
+            width: 90%;
+            max-width: 460px;
+            border: 2px solid rgba(255, 240, 235, 0.8);
+        }
+        .modal-organic h2 { font-family: var(--font-display); margin-bottom: 20px; }
+        .modal-organic h4 { font-size: 14px; margin: 16px 0 8px; color: var(--nutri-base); }
+        
+        .modal-check {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0;
+        }
+        .modal-check input[type="checkbox"] {
+            width: 18px; height: 18px;
+            accent-color: var(--nutri-accent);
+        }
+
+        .input-organic {
+            width: 100%;
+            padding: 16px;
+            background: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255,220,210,0.8);
+            border-radius: 50px 15px 50px 15px;
+            font-family: var(--font-body);
+            margin-bottom: 16px;
+        }
+        select.input-organic {
+            appearance: none;
+        }
+
+        .close-organic {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: white;
+            border: none;
+            width: 36px; height: 36px;
+            border-radius: 40% 60% 30% 70%;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        /* MOBILE - Adaptación */
+        .mobile-orbit {
+            display: none;
+        }
+
+        @media (max-width: 900px) {
+            .triple-helix { grid-template-columns: 1fr; }
+            .panel:not(.chat-main-panel) { display: none; }
+            .chat-main-panel { border-radius: 55px 25px 55px 25px; height: 100%; }
+            
+            .mobile-orbit {
+                display: flex;
+                position: fixed;
+                bottom: 20px;
+                left: 20px; right: 20px;
+                background: rgba(255, 245, 240, 0.7);
+                backdrop-filter: blur(30px);
+                border-radius: 60px 20px 60px 20px;
+                padding: 8px;
+                justify-content: space-around;
+                border: 1px solid white;
+                z-index: 1000;
+            }
+            .mobile-orbit button {
+                background: transparent;
+                border: none;
+                font-size: 24px;
+                padding: 12px;
+                border-radius: 40% 60% 30% 70%;
+                color: var(--nutri-base);
+                transition: 0.2s;
+            }
+            .mobile-orbit button.active {
+                background: var(--nutri-accent);
+                color: white;
+            }
+            
+            .panel.active-mobile {
+                display: flex !important;
+                position: fixed;
+                top: 0; left: 0;
+                width: 100%; height: 100vh;
+                z-index: 900;
+                border-radius: 0;
+            }
+            
+            .keyboard-open .mobile-orbit { display: none; }
+        }
+
+        .text-small { font-size: 12px; opacity: 0.7; }
+        .mt-auto { margin-top: auto; }
+        .w-full { width: 100%; }
+        .badge-week {
+            display: inline-block;
+            background: rgba(255,255,255,0.4);
+            padding: 6px 16px;
+            border-radius: 99px;
+            font-size: 12px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="biosphere">
+        <div class="biosphere__cell"></div>
+        <div class="biosphere__cell"></div>
+        <div class="biosphere__cell"></div>
+    </div>
+
+    <div class="womb">
+        <div class="triple-helix">
+            <!-- COLUMNA IZQUIERDA (historial) - IDs originales preservados -->
+            <div class="panel" id="chatHistory" style="border-radius: 55px 20px 45px 30px / 30px 45px 25px 55px;">
+                <button class="new-chat-button" id="btnNuevaChatUniversal">
+                    <span style="font-size: 24px; line-height: 1;">+</span> Nueva conversación
+                </button>
+                <div class="history-scroll" id="chatsContainerPc"></div>
+                <!-- Versión móvil oculta pero presente para compatibilidad -->
+                <div style="display: none;" id="chatsContainerMobile"></div>
+            </div>
+
+            <!-- COLUMNA CENTRAL (CHAT PRINCIPAL) - IDs funcionales preservados -->
+            <div class="panel chat-main-panel" id="chatMainView">
+                <div class="chat-header-orbital">
+                    <div class="orb-avatar">MB</div>
+                    <div>
+                        <div class="orbital-name">MamaBot <span style="font-weight:300; font-size:13px; margin-left:8px;">· núcleo gestacional</span></div>
+                        <div class="orbital-status">conexión bio-neural activa</div>
+                    </div>
+                </div>
+
+                <div class="chat-body-atmos" id="chatBody">
+                    <!-- Mensaje Bienvenida (se reemplazará por JS pero dejamos placeholder) -->
+                    <div class="message-bubble bot">
+                        <div class="bubble-title">¡Hola <span th:text="${usuarioNombre}">Mamita</span>! 👋</div>
+                        <div>Soy tu asistente NutriMama. Estoy aquí para acompañarte durante tu embarazo.</div>
+                        <div class="badge-week" th:text="${perfil != null ? 'Semana ' + perfil.semanas + ' de gestación' : 'Semana -- de gestación'}">🌸 Semana 12 de gestación</div>
+                    </div>
+                </div>
+
+                <div class="send-area">
+                    <button class="quick-symptom" id="btnSeleccionarSintomas">📋 Selección Rápida de Síntomas</button>
+                    <div class="send-field">
+                        <input type="text" id="chatInput" placeholder="Escribe tu mensaje aquí...">
+                        <button id="btnEnviar">
+                            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUMNA DERECHA (perfil + calendario) - IDs originales -->
+            <div class="panel" id="sidePanel" style="gap: 8px;">
+                <div class="profile-tag">
+                    <div class="week-petal" th:text="${perfil != null ? perfil.semanas : '12'}">12</div>
+                    <div>
+                        <div style="font-weight:800;" th:text="${usuarioNombre}">Mamita</div>
+                        <div class="text-small" th:text="${perfil != null ? 'Semana ' + perfil.semanas : 'Semana de embarazo'}">semana 12</div>
+                    </div>
+                </div>
+
+                <!-- Calendario con IDs originales -->
+                <div class="lunar-calendar">
+                    <div class="lunar-header">
+                        <button class="nav-petal" id="btnPrevMonth">←</button>
+                        <span id="currentMonth">Marzo 2024</span>
+                        <button class="nav-petal" id="btnNextMonth">→</button>
+                    </div>
+                    <div class="lunar-weekdays">
+                        <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+                    </div>
+                    <div class="lunar-grid" id="calendarDays"></div>
+                </div>
+
+                <!-- Eventos con IDs originales -->
+                <div class="event-cluster">
+                    <div style="display:flex; justify-content:space-between; font-weight:700; margin-bottom:10px;">
+                        <span>⏣ Hoy</span> <span id="todayDate"></span>
+                    </div>
+                    <div id="eventosHoy"></div>
+                </div>
+
+                <div class="event-cluster">
+                    <div style="font-weight:700; margin-bottom:8px;">⟢ Próximos</div>
+                    <div id="proximosEventos"></div>
+                </div>
+
+                <button class="action-blob" id="btnAgregarEvento">+ Añadir evento</button>
+                
+                <form th:action="@{/logout}" method="get" class="w-full" style="margin-top: auto;">
+                    <button type="submit" class="logout-btn">↺ Cerrar sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- BARRA MÓVIL ORGÁNICA con IDs originales -->
+    <div class="mobile-orbit" id="mobileBottomBar">
+        <button id="btnMobileHistory">📋</button>
+        <button id="btnMobileChat" class="active">💬</button>
+        <button id="btnMobileCalendar">📅</button>
+    </div>
+
+    <!-- MODAL SÍNTOMAS (adaptado pero funcional) -->
+    <div class="modal-membrane" id="modalSintomas">
+        <div class="modal-organic" style="position: relative;">
+            <button class="close-organic" id="btnCerrarSintomas">&times;</button>
+            <h2>¿Cómo te sientes?</h2>
+            <p style="margin-bottom: 20px;">Selecciona los síntomas que presentas hoy.</p>
+            <form id="formSintomas">
+                <h4>Digestivos</h4>
+                <label class="modal-check"><input type="checkbox" name="sintomas" value="Náuseas"> Náuseas</label>
+                <label class="modal-check"><input type="checkbox" name="sintomas" value="Vómitos"> Vómitos</label>
+                <label class="modal-check"><input type="checkbox" name="sintomas" value="Acidez / Reflujo"> Acidez / Reflujo</label>
+                
+                <h4>Generales</h4>
+                <label class="modal-check"><input type="checkbox" name="sintomas" value="Cansancio / Fatiga"> Cansancio / Fatiga</label>
+                <label class="modal-check"><input type="checkbox" name="sintomas" value="Mareos"> Mareos</label>
+                
+                <button type="submit" class="action-blob" style="width:100%; margin-top:24px;">Analizar síntomas</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL EVENTO (adaptado) -->
+    <div class="modal-membrane" id="modalNuevoEvento">
+        <div class="modal-organic" style="position: relative;">
+            <button class="close-organic" id="btnCerrarModalEvento">&times;</button>
+            <h2>Añadir Evento</h2>
+            <form id="formNuevoEvento">
+                <input type="text" id="evtTitulo" placeholder="Título de la cita o evento" class="input-organic" required>
+                <input type="text" id="evtDescripcion" placeholder="Breve descripción (Opcional)" class="input-organic">
+                <select id="evtTipo" class="input-organic" required>
+                    <option value="MEDICAL">Cita Médica</option>
+                    <option value="SYMPTOM">Registro de Síntoma</option>
+                    <option value="REMINDER">Recordatorio</option>
+                </select>
+                <div style="display: flex; gap: 10px;">
+                    <input type="date" id="evtFecha" class="input-organic" required style="flex:1;">
+                    <input type="time" id="evtHora" class="input-organic" style="flex:1;">
+                </div>
+                <button type="submit" class="action-blob" style="width:100%; margin-top:16px;">Guardar Evento</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== JAVASCRIPT ORIGINAL COMPLETO (con mínimas adaptaciones de nombres de clases) ===== -->
+    <script>
+        // Variables Globales (ORIGINALES)
+        let currentDate = new Date();
+        let eventosDelMes = {};
+        let sesionesOrdenadas = [];
+        let currentView = 'chat';
+        let isKeyboardOpen = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarSesionesDesdeBackend();
+            inicializarCalendario();
+            inicializarEventos();
+            inicializarChat();
+            inicializarModales();
+            inicializarMobileLogic();
+            
+            cargarEventosHoy();
+            cargarProximosEventos();
+            generarCalendario();
+            detectarTecladoMovil();
+        });
+
+        // 1. CHAT LOGIC (UI & Backend) - ORIGINAL
+        function inicializarChat() {
+            const input = document.getElementById('chatInput');
+            const btnEnviar = document.getElementById('btnEnviar');
+            
+            btnEnviar.addEventListener('click', enviarMensaje);
+            input.addEventListener('keydown', e => {
+                if (e.key === 'Enter') { e.preventDefault(); enviarMensaje(); }
+            });
+            if (window.innerWidth <= 900) {
+                input.addEventListener('focus', () => setTimeout(scrollToBottom, 300));
+            }
+        }
+
+        function agregarMensaje(titulo, texto) {
+            const chatBody = document.getElementById('chatBody');
+            const esBot = titulo === "MamaBot";
+            const div = document.createElement('div');
+            div.className = `message-bubble ${esBot ? 'bot' : 'user'}`;
+            
+            let seguro = texto.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
+            seguro = seguro.replace(/^[-•]\s*(.+)$/gm, '• $1');
+
+            const time = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+
+            div.innerHTML = `
+                <div class="bubble-title">${titulo}</div>
+                <div>${seguro}</div>
+                <div style="font-size:10px; opacity:0.5; text-align:right; margin-top:8px;">${time}</div>
+            `;
+            chatBody.appendChild(div);
+            scrollToBottom();
+            return div;
+        }
+
+        function mostrarTypingIndicator() {
+            const chatBody = document.getElementById('chatBody');
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typing-indicator';
+            typingDiv.className = 'message-bubble bot';
+            typingDiv.innerHTML = `
+                <div class="bubble-title">MamaBot</div>
+                <div class="typing-dots"><span></span><span></span><span></span></div>
+            `;
+            chatBody.appendChild(typingDiv);
+            scrollToBottom();
+        }
+
+        function eliminarTypingIndicator() {
+            const typingDiv = document.getElementById('typing-indicator');
+            if (typingDiv) typingDiv.remove();
+        }
+
+        function enviarMensaje() {
+            const input = document.getElementById('chatInput');
+            const texto = input.value.trim();
+            if (!texto) return;
+            
+            input.value = '';
+            agregarMensaje("Tú", texto);
+            mostrarTypingIndicator();
+
+            const chatActivo = document.querySelector('.chat-cluster-btn.active');
+            const sessionId = chatActivo ? chatActivo.dataset.id : null;
+            enviarAlBackend(texto, [], sessionId);
+        }
+
+        async function enviarAlBackend(texto, sintomas = [], sessionId = null) {
+            const payload = { mensaje: texto, sintomas: sintomas };
+            const url = sessionId ? `/chatbot/sintoma?sessionId=${sessionId}` : '/chatbot/sintoma';
+            
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" },
+                    body: JSON.stringify(payload)
+                });
+                
+                eliminarTypingIndicator();
+                if (!response.ok) {
+                    if (response.status === 401) window.location.href = '/login';
+                    throw new Error('Error de red');
+                }
+                
+                const data = await response.json();
+                agregarMensaje("MamaBot", data.respuesta || "No pude procesar tu mensaje.");
+                
+                if (data.titulo && data.sessionId) actualizarTituloChat(data.sessionId, data.titulo);
+            } catch (error) {
+                eliminarTypingIndicator();
+                agregarMensaje("MamaBot", "❌ Lo siento, hubo un error de conexión.");
+            }
+        }
+
+        // 2. HISTORIAL SESIONES (Render y Fetch) - ORIGINAL pero adaptado a .chat-cluster-btn
+        async function cargarSesionesDesdeBackend() {
+            try {
+                const response = await fetch('/chatbot/sessions', { headers: { 'X-Requested-With': 'XMLHttpRequest' }});
+                if (!response.ok) return cargarSesionesDesdeThymeleaf();
+                const sesiones = await response.json();
+                
+                sesionesOrdenadas = sesiones.sort((a, b) => {
+                    if (a.fijado && !b.fijado) return -1;
+                    if (!a.fijado && b.fijado) return 1;
+                    return new Date(b.fechaCreacion || 0) - new Date(a.fechaCreacion || 0);
+                });
+                renderizarSesiones();
+                
+                if (sesionesOrdenadas.length > 0) {
+                    const sesionActiva = sesionesOrdenadas.find(s => s.activa) || sesionesOrdenadas[0];
+                    await abrirChat(sesionActiva.id);
+                }
+            } catch (error) { cargarSesionesDesdeThymeleaf(); }
+        }
+
+        function cargarSesionesDesdeThymeleaf() {
+            crearSesionLocal(); 
+        }
+
+        function renderizarSesiones() {
+            const containerPc = document.getElementById('chatsContainerPc');
+            const containerMobile = document.getElementById('chatsContainerMobile');
+            if (!containerPc) return;
+            
+            containerPc.innerHTML = ''; 
+            if (containerMobile) containerMobile.innerHTML = '';
+            
+            if (sesionesOrdenadas.length === 0) return;
+            
+            const html = sesionesOrdenadas.map(sesion => `
+                <div class="chat-cluster">
+                    <button class="chat-cluster-btn ${sesion.fijado ? 'fijado' : ''} ${sesion.activa ? 'active' : ''}" data-id="${sesion.id}">
+                        ${sesion.titulo || 'Nueva conversación'}
+                    </button>
+                    <div class="cluster-actions">
+                        <button class="pin-cluster ${sesion.fijado ? 'fijado' : ''}" data-id="${sesion.id}">📌</button>
+                        <button class="delete-cluster" data-id="${sesion.id}">✕</button>
+                    </div>
+                </div>
+            `).join('');
+
+            containerPc.innerHTML = html;
+            if (containerMobile) containerMobile.innerHTML = html;
+            
+            // Re-bind events
+            document.querySelectorAll(".chat-cluster-btn").forEach(b => b.onclick = () => abrirChat(b.dataset.id));
+            document.querySelectorAll(".delete-cluster").forEach(b => b.onclick = e => eliminarChat(e, b.dataset.id));
+            document.querySelectorAll(".pin-cluster").forEach(b => b.onclick = e => fijarChat(e, b.dataset.id));
+        }
+
+        async function abrirChat(sessionId) {
+            try {
+                const response = await fetch(`/chatbot/session/${sessionId}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' }});
+                if (!response.ok) return;
+                
+                const data = await response.json();
+                document.getElementById('chatBody').innerHTML = '';
+
+                if (data.mensajes && data.mensajes.length > 0) {
+                    data.mensajes.forEach(m => agregarMensaje(m.rol === "BOT" ? "MamaBot" : "Tú", m.contenido));
+                } else {
+                    agregarMensaje("MamaBot", "✨ Empecemos a conversar...");
+                }
+
+                document.querySelectorAll(".chat-cluster-btn").forEach(b => b.classList.remove("active"));
+                document.querySelectorAll(`.chat-cluster-btn[data-id="${sessionId}"]`).forEach(b => b.classList.add("active"));
+                sesionesOrdenadas.forEach(s => s.activa = s.id === sessionId);
+                
+                if(window.innerWidth <= 900) cambiarVistaMovil('chat');
+            } catch (error) {}
+        }
+
+        async function crearNuevoChat() {
+            try {
+                const response = await fetch("/chatbot/nueva", { method: "POST", headers: { "Content-Type": "application/json", "X-Requested-With": "XMLHttpRequest" }});
+                if (!response.ok) throw new Error();
+                const session = await response.json();
+                
+                document.getElementById('chatBody').innerHTML = "";
+                agregarMensaje("MamaBot", "✨ Empecemos una nueva conversación.");
+                sesionesOrdenadas.unshift({ id: session.id, titulo: session.titulo, fijado: false, activa: true, fechaCreacion: new Date()});
+                renderizarSesiones();
+                if(window.innerWidth <= 900) cambiarVistaMovil('chat');
+            } catch (error) { crearSesionLocal(); }
+        }
+
+        function crearSesionLocal() {
+            const sessionId = Date.now();
+            sesionesOrdenadas.unshift({ id: sessionId, titulo: 'Nueva conversación', fijado: false, activa: true, fechaCreacion: new Date()});
+            renderizarSesiones();
+            document.getElementById('chatBody').innerHTML = "";
+            agregarMensaje("MamaBot", "✨ Empecemos (Modo Local).");
+            if(window.innerWidth <= 900) cambiarVistaMovil('chat');
+        }
+
+        async function eliminarChat(e, id) {
+            e.stopPropagation();
+            if (!confirm("¿Eliminar conversación?")) return;
+            try {
+                await fetch(`/chatbot/session/${id}/delete`, { method: "POST" });
+            } catch(e){}
+            sesionesOrdenadas = sesionesOrdenadas.filter(s => s.id != id);
+            renderizarSesiones();
+            document.getElementById('chatBody').innerHTML = "";
+        }
+
+        async function fijarChat(e, id) {
+            e.stopPropagation();
+            try {
+                const response = await fetch(`/chatbot/session/${id}/fijar`, { method: "POST" });
+                const result = await response.json();
+                const idx = sesionesOrdenadas.findIndex(s => s.id == id);
+                if(idx > -1) {
+                    sesionesOrdenadas[idx].fijado = result.fijado;
+                    sesionesOrdenadas.sort((a, b) => (a.fijado === b.fijado) ? 0 : a.fijado ? -1 : 1);
+                    renderizarSesiones();
+                }
+            } catch(e) {}
+        }
+
+        function actualizarTituloChat(id, titulo) {
+            const idx = sesionesOrdenadas.findIndex(s => s.id == id);
+            if(idx > -1) sesionesOrdenadas[idx].titulo = titulo;
+            renderizarSesiones();
+        }
+
+        // 3. CALENDARIO Y EVENTOS - ORIGINAL (adaptado a clases CSS)
+        function inicializarCalendario() {
+            document.getElementById('btnPrevMonth')?.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); generarCalendario(); });
+            document.getElementById('btnNextMonth')?.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); generarCalendario(); });
+        }
+
+        async function generarCalendario() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth() + 1;
+            try {
+                const res = await fetch(`/api/calendario/mes?year=${year}&month=${month}`);
+                const data = await res.json();
+                eventosDelMes = data.eventos || {};
+            } catch(e){ eventosDelMes = {}; }
+
+            const monthNames =["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            document.getElementById('currentMonth').textContent = `${monthNames[month-1]} ${year}`;
+            
+            const firstDay = new Date(year, month - 1, 1).getDay();
+            const daysInMonth = new Date(year, month, 0).getDate();
+            let firstDayIndex = firstDay === 0 ? 6 : firstDay - 1;
+
+            let html = '';
+            const today = new Date();
+
+            // Relleno mes anterior
+            for (let i = 0; i < firstDayIndex; i++) html += `<div class="lunar-day other-month">-</div>`;
+
+            // Días actuales
+            for (let day = 1; day <= daysInMonth; day++) {
+                const isToday = day === today.getDate() && month - 1 === today.getMonth() && year === today.getFullYear();
+                const key = `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                const hasEvent = eventosDelMes[key]?.length > 0;
+                
+                html += `<div class="lunar-day ${isToday ? 'today' : ''} ${hasEvent ? 'has-event' : ''}">
+                            ${day}
+                         </div>`;
+            }
+            document.getElementById('calendarDays').innerHTML = html;
+        }
+
+        async function cargarEventosHoy() {
+            const todaySpan = document.getElementById('todayDate');
+            if (todaySpan) todaySpan.textContent = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+            
+            try {
+                const res = await fetch('/api/calendario/hoy');
+                const eventos = await res.json();
+                const container = document.getElementById('eventosHoy');
+                if (!container) return;
+                
+                const html = eventos.length ? eventos.map(e => `
+                    <div class="event-item">
+                        <div class="event-icon-box">${e.tipo === 'MEDICAL'?'🏥':e.tipo==='SYMPTOM'?'🤒':'🔔'}</div>
+                        <div style="flex:1;">
+                            <div class="event-title">${e.titulo}</div>
+                            <div class="event-time">${e.hora ? e.hora+' • ' : ''}${e.descripcion||''}</div>
+                        </div>
+                    </div>
+                `).join('') : '<p style="font-size:13px; opacity:0.6; padding:10px 0;">No hay eventos para hoy</p>';
+                container.innerHTML = html;
+            } catch(e) { 
+                const container = document.getElementById('eventosHoy');
+                if (container) container.innerHTML = '<p style="font-size:13px; opacity:0.6;">Sin eventos</p>';
+            }
+        }
+
+        async function cargarProximosEventos() {
+            try {
+                const res = await fetch('/api/calendario/proximos');
+                const eventos = await res.json();
+                const container = document.getElementById('proximosEventos');
+                if (!container) return;
+                
+                const html = eventos.length ? eventos.map(e => `
+                    <div class="upcoming-item">
+                        <div class="event-icon-box" style="background:var(--nutri-soft); color:var(--nutri-accent); font-weight:800; font-size:12px;">
+                            ${e.diasRestantes === 0 ? 'Hoy' : e.diasRestantes + 'd'}
+                        </div>
+                        <div style="flex:1;">
+                            <div class="event-title">${e.titulo}</div>
+                            <div class="event-time">${e.descripcion||''}</div>
+                        </div>
+                    </div>
+                `).join('') : '<p style="font-size:13px; opacity:0.6;">No hay próximos eventos</p>';
+                container.innerHTML = html;
+            } catch(e) { 
+                const container = document.getElementById('proximosEventos');
+                if (container) container.innerHTML = '<p style="font-size:13px; opacity:0.6;">Sin eventos</p>';
+            }
+        }
+
+        // 4. MODALES - ORIGINAL pero adaptado a nuevas clases
+        function inicializarModales() {
+            // Síntomas
+            const mSint = document.getElementById('modalSintomas');
+            const btnSint = document.getElementById('btnSeleccionarSintomas');
+            if (btnSint) btnSint.onclick = () => mSint.style.display = 'flex';
+            
+            const formSint = document.getElementById('formSintomas');
+            if (formSint) {
+                formSint.onsubmit = e => {
+                    e.preventDefault();
+                    const seleccionados = [...e.target.querySelectorAll('input:checked')].map(i => i.value);
+                    if(!seleccionados.length) return alert('Selecciona al menos uno');
+                    mSint.style.display = 'none';
+                    e.target.reset();
+                    agregarMensaje("Tú", "Mis síntomas son: " + seleccionados.join(", "));
+                    mostrarTypingIndicator();
+                    const sessionId = document.querySelector('.chat-cluster-btn.active')?.dataset.id;
+                    enviarAlBackend("Tengo síntomas", seleccionados, sessionId);
+                };
+            }
+
+            // Eventos
+            const mEvt = document.getElementById('modalNuevoEvento');
+            const btnEvt = document.getElementById('btnAgregarEvento');
+            if (btnEvt) {
+                btnEvt.onclick = () => {
+                    mEvt.style.display = 'flex';
+                    const fechaInput = document.getElementById('evtFecha');
+                    if (fechaInput) fechaInput.value = new Date().toISOString().split('T')[0];
+                };
+            }
+            
+            const formEvt = document.getElementById('formNuevoEvento');
+            if (formEvt) {
+                formEvt.onsubmit = async e => {
+                    e.preventDefault();
+                    const payload = {
+                        titulo: document.getElementById('evtTitulo').value,
+                        descripcion: document.getElementById('evtDescripcion').value,
+                        tipo: document.getElementById('evtTipo').value,
+                        fecha: document.getElementById('evtFecha').value,
+                        hora: document.getElementById('evtHora').value || null
+                    };
+                    try {
+                        await fetch('/api/calendario/nuevo', { method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+                        mEvt.style.display = 'none';
+                        e.target.reset();
+                        cargarEventosHoy(); cargarProximosEventos(); generarCalendario();
+                    } catch(err) {}
+                };
+            }
+
+            // Cerrar modales
+            document.querySelectorAll('.close-organic, .modal-membrane .close-organic').forEach(b => {
+                if (b) b.onclick = e => e.target.closest('.modal-membrane').style.display = 'none';
+            });
+            
+            // Cerrar al hacer clic fuera
+            document.querySelectorAll('.modal-membrane').forEach(m => {
+                m.addEventListener('click', function(e) {
+                    if(e.target === this) this.style.display = 'none';
+                });
+            });
+        }
+
+        function inicializarEventos() {
+            const btnUniversal = document.getElementById('btnNuevaChatUniversal');
+            if (btnUniversal) btnUniversal.addEventListener('click', crearNuevoChat);
+        }
+
+        // 5. NAVEGACIÓN MÓVIL (adaptada)
+        function inicializarMobileLogic() {
+            const btnHistory = document.getElementById('btnMobileHistory');
+            const btnChat = document.getElementById('btnMobileChat');
+            const btnCalendar = document.getElementById('btnMobileCalendar');
+            
+            if (btnHistory) btnHistory.onclick = () => cambiarVistaMovil('history');
+            if (btnChat) btnChat.onclick = () => cambiarVistaMovil('chat');
+            if (btnCalendar) btnCalendar.onclick = () => cambiarVistaMovil('calendar');
+        }
+
+        function cambiarVistaMovil(vista) {
+            document.querySelectorAll('#mobileBottomBar button').forEach(b => b.classList.remove('active'));
+            const btn = document.getElementById('btnMobile' + vista.charAt(0).toUpperCase() + vista.slice(1));
+            if (btn) btn.classList.add('active');
+
+            const historyPanel = document.getElementById('chatHistory');
+            const sidePanel = document.getElementById('sidePanel');
+            
+            if (historyPanel) historyPanel.classList.remove('active-mobile');
+            if (sidePanel) sidePanel.classList.remove('active-mobile');
+
+            if(vista === 'history' && historyPanel) historyPanel.classList.add('active-mobile');
+            if(vista === 'calendar' && sidePanel) sidePanel.classList.add('active-mobile');
+        }
+
+        function scrollToBottom() {
+            const b = document.getElementById('chatBody');
+            if(b) b.scrollTop = b.scrollHeight;
+        }
+
+        function detectarTecladoMovil() {
+            if (window.innerWidth > 900) return;
+            const input = document.getElementById('chatInput');
+            if (!input) return;
+            
+            input.addEventListener('focus', () => {
+                document.body.classList.add('keyboard-open');
+                setTimeout(scrollToBottom, 200);
+            });
+            input.addEventListener('blur', () => {
+                document.body.classList.remove('keyboard-open');
+            });
+        }
+    </script>
+</body>
+</html>

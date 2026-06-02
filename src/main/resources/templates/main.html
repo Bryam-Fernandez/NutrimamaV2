@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriMama - Pantalla de Bienvenida</title>
+    <style>
+        /* ESTILOS DE LA SIMULACIÓN DE TELÉFONO */
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f7f7f7; /* Fondo de la página */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .phone {
+            width: 390px; /* Ancho de la simulación de teléfono */
+            height: 844px; /* Altura de la simulación de teléfono */
+            background: white;
+            border-radius: 40px;
+            border: 1px solid #ddd;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* BARRA DE INDICADORES (PUNTOS) */
+        .indicator-bar {
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            background-color: white;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #fce4ec; /* Rosa claro */
+        }
+
+        .dot.active {
+            width: 20px;
+            background-color: #f15c88; /* Rosa fuerte - activo */
+            border-radius: 4px;
+        }
+
+        /* CONTENEDOR PRINCIPAL DEL CONTENIDO */
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex-grow: 1; /* Ocupa el espacio restante */
+            background-color: white;
+        }
+
+        /* ESTILOS DE LA IMAGEN */
+        .img-wrapper {
+            width: 100%;
+            height: 60%; /* La imagen ocupa la mayor parte del espacio superior */
+            overflow: hidden;
+            position: relative;
+            background-color: #fff0f5; /* Fondo suave para la imagen */
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Se aplica un ligero borde redondeado solo en la parte inferior de la imagen */
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        
+        /* ESTILOS DEL TEXTO Y BOTONES */
+        .text-and-buttons {
+            padding: 0 24px;
+            padding-bottom: 20px; /* Espacio debajo de los botones */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* Empuja el contenido hacia abajo */
+            text-align: center;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .title strong {
+            color: #ff3377; /* El color principal del diseño */
+            font-weight: bold;
+        }
+
+        /* ESTILOS DE BOTONES */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            margin: 8px 0;
+            border-radius: 30px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, opacity 0.3s;
+        }
+
+        .btn-create {
+            background-color: #f15c88; 
+            color: white;
+            box-shadow: 0 4px 10px rgba(255, 51, 119, 0.3);
+        }
+
+        .btn-login {
+            background-color: transparent; 
+            color: #ff3377;
+            border: 1px solid #ff3377;
+        }
+
+        .btn-create:hover {
+            opacity: 0.9;
+        }
+
+        .btn-login:hover {
+            background-color: #fff0f5;
+        }
+
+        /* TÉRMINOS Y CONDICIONES */
+        .terms-and-policy {
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .terms-and-policy a {
+            color: #ff3377;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="phone">
+    <div class="indicator-bar">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    
+    <div class="content-container">
+        <div class="img-wrapper">
+                        <img src="img/embarazada.webp" 
+                 alt="Mujer embarazada sosteniendo su vientre" 
+                 class="hero-img">
+        </div>
+        
+        <div class="text-and-buttons">
+            <h1 class="title">
+                Disfruta de tu nutrición <br>
+                <strong>durante tu embarazo</strong>
+            </h1>
+            
+        <button class="btn btn-create" onclick="window.location.href='/register'">Crear una cuenta</button>
+
+                   <button class="btn btn-login" onclick="window.location.href='/login'">Ingresar</button>
+
+
+            <p class="terms-and-policy">
+                Yo acepto <a href="#">Terminos y Condiciones</a> y 
+                <a href="#">Políticas de privacidad</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

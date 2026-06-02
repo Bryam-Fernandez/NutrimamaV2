@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>NutriMama · Bienvenida</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fuentes elegantes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* PALETA DE COLORES PERSONALIZADA */
+        :root {
+            --color1: #ff9cf4;  /* Rosa claro */
+            --color2: #ffc3e1;  /* Rosa pastel */
+            --color3: #3b0c1d;  /* Vino oscuro */
+            --color4: #8f827e;  /* Gris/marrón suave */
+            --color5: #fffaf2;  /* Crema/blanco hueso */
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        /* ===== CARRUSEL DE FONDO ===== */
+        .background-carousel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.5s ease-in-out, visibility 1.5s ease-in-out;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7) blur(2px);
+            transform: scale(1.05);
+            transition: transform 8s ease;
+        }
+
+        .carousel-slide.active img {
+            transform: scale(1.1);
+        }
+
+        /* Capa de superposición para mejorar legibilidad */
+        .carousel-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(255, 156, 244, 0.2) 0%, rgba(255, 195, 225, 0.3) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* CONTENEDOR PRINCIPAL - CENTRADO */
+        .login-container {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        /* TARJETA PRINCIPAL */
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255, 250, 242, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 50px 30px 40px;
+            box-shadow: 0 25px 45px rgba(59, 12, 29, 0.3);
+            border: 1px solid rgba(255, 250, 242, 0.3);
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* LOGO SUPERIOR */
+        .logo {
+            margin-bottom: 40px;
+        }
+
+        .logo img {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 4px 8px rgba(59, 12, 29, 0.3));
+        }
+
+        /* CONTENEDOR DE CAMPOS */
+        .form-container {
+            background: var(--color5);
+            border-radius: 16px;
+            padding: 30px 25px;
+            box-shadow: 0 15px 35px rgba(59, 12, 29, 0.2);
+            margin-bottom: 20px;
+        }
+
+        /* GRUPO DE INPUTS */
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 16px 50px 16px 20px;
+            border: none;
+            border-bottom: 2px solid var(--color2);
+            background: transparent;
+            font-size: 16px;
+            color: var(--color3);
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-bottom-color: var(--color1);
+        }
+
+        .input-group input::placeholder {
+            color: var(--color4);
+            font-weight: 400;
+        }
+
+        /* ÍCONOS A LA DERECHA */
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color1);
+            font-size: 18px;
+            opacity: 0.8;
+        }
+
+        /* BOTÓN PRINCIPAL */
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: rgba(59, 12, 29, 0.9);
+            border: none;
+            border-radius: 50px;
+            color: var(--color5);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 15px 0 20px;
+            box-shadow: 0 10px 20px rgba(59, 12, 29, 0.3);
+            text-transform: uppercase;
+        }
+
+        .btn-login:hover {
+            background: var(--color3);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(59, 12, 29, 0.4);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* ENLACES SECUNDARIOS */
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .links a {
+            color: var(--color5);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+            text-shadow: 0 1px 3px rgba(59, 12, 29, 0.3);
+        }
+
+        .links a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        /* BOTONES SOCIALES */
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 0;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            max-width: 160px;
+            box-shadow: 0 8px 15px rgba(59, 12, 29, 0.2);
+        }
+
+        .social-btn i {
+            font-size: 18px;
+        }
+
+        .social-btn.facebook {
+            background: #1877f2;
+        }
+
+        .social-btn.google {
+            background: #db4437;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.1);
+            box-shadow: 0 12px 20px rgba(59, 12, 29, 0.3);
+        }
+
+        /* ESTADOS DE MENSAJES */
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .status.error {
+            background: rgba(255, 195, 225, 0.9);
+            color: var(--color3);
+            border: 1px solid var(--color1);
+        }
+
+        .status.loading {
+            background: var(--color5);
+            color: var(--color3);
+            border: 1px solid var(--color2);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+            
+            .links {
+                gap: 20px;
+            }
+            
+            .social-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .social-btn {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- CARRUSEL DE FONDO - TÚ PONES LAS IMÁGENES AQUÍ -->
+    <div class="background-carousel">
+        <div class="carousel-slide active">
+            <img src="img/login1.webp" alt="Fondo 1">
+        </div>
+        <div class="carousel-slide">
+            <img src="img/login2.webp" alt="Fondo 2">
+        </div>
+        <div class="carousel-slide">
+            <img src="img/login3.webp" alt="Fondo 3">
+        </div>
+    </div>
+    
+    <!-- Capa de superposición para mejorar legibilidad -->
+    <div class="carousel-overlay"></div>
+
+    <div class="login-container">
+        <div class="login-card">
+            <!-- LOGO SUPERIOR -->
+            <div class="logo">
+                <img src="img/logo-preview.png" alt="Logo" width="300" height="100">
+            </div>
+
+            <!-- CONTENEDOR DE CAMPOS -->
+            <div class="form-container">
+                <form id="loginForm">
+                    <!-- CAMPO USERNAME CON ÍCONO -->
+                    <div class="input-group">
+                        <input type="text" id="username" placeholder="Username" required autocomplete="username">
+                        <i class="fas fa-user input-icon"></i>
+                    </div>
+
+                    <!-- CAMPO PASSWORD CON ÍCONO -->
+                    <div class="input-group">
+                        <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+                        <i class="fas fa-lock input-icon"></i>
+                    </div>
+
+                    <!-- BOTÓN PRINCIPAL LOGIN -->
+                    <button type="submit" class="btn-login">Login</button>
+
+                    <!-- MENSAJES DE ESTADO -->
+                    <div class="status error" id="errorMsg"></div>
+                    <div class="status loading" id="loader">Verificando...</div>
+                </form>
+            </div>
+
+            <!-- ENLACES SECUNDARIOS -->
+            <div class="links">
+                <a href="#">Forgot Password?</a>
+                <a href="/register">Sign Up</a>
+            </div>
+
+            <!-- BOTONES SOCIALES -->
+            <div class="social-buttons">
+                <button class="social-btn facebook" onclick="window.location.href='/oauth2/authorization/facebook'">
+                    <i class="fab fa-facebook-f"></i>
+                    Facebook
+                </button>
+                <button class="social-btn google" onclick="window.location.href='/oauth2/authorization/google'">
+                    <i class="fab fa-google"></i>
+                    Google
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- LÓGICA DEL CARRUSEL DE FONDO ---
+        (function() {
+            const slides = document.querySelectorAll('.carousel-slide');
+            if (!slides.length) return;
+
+            let currentSlide = 0;
+            
+            function nextSlide() {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+
+            // Cambiar cada 6 segundos
+            setInterval(nextSlide, 6000);
+        })();
+
+        // --- LÓGICA DE LOGIN ---
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const loader = document.getElementById('loader');
+            const btn = document.querySelector('.btn-login');
+
+            // Verificar que los elementos existen
+            if (!errorMsg || !loader) {
+                console.error('Elementos de estado no encontrados');
+                return;
+            }
+
+            // Resetear estados
+            errorMsg.style.display = 'none';
+            errorMsg.textContent = '';
+            loader.style.display = 'block';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: username, password: password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Credenciales inválidas');
+                }
+
+                // Login exitoso
+                sessionStorage.setItem('usuario', JSON.stringify(data));
+                window.location.href = '/formulario-mama';
+
+            } catch (err) {
+                // Mostrar error
+                errorMsg.textContent = err.message;
+                errorMsg.style.display = 'block';
+                
+                // Animación de error en el campo de contraseña
+                document.getElementById('password').animate([
+                    { transform: 'translateX(0)' },
+                    { transform: 'translateX(-5px)' },
+                    { transform: 'translateX(5px)' },
+                    { transform: 'translateX(-5px)' },
+                    { transform: 'translateX(5px)' },
+                    { transform: 'translateX(0)' }
+                ], { duration: 400 });
+                
+            } finally {
+                // Restaurar botón
+                loader.style.display = 'none';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
