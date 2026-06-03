@@ -224,7 +224,7 @@
 <!-- Header de Navegación -->
 <header class="header-nav">
     <div class="header-brand">
-        🌸 NutriMama
+        <img src="img/logo-preview.png" width="45px" height="45px">NutriMama
     </div>
     <a class="logout-btn" th:href="@{/logout}">Cerrar sesión</a>
 </header>
@@ -244,7 +244,6 @@
             <!-- TARJETA 1: PERFIL PERSONAL -->
             <div class="form-card">
                 <div class="section-header">
-                    <div class="section-icon">👤</div>
                     <h3 class="section-title">Perfil Personal</h3>
                 </div>
 
@@ -252,7 +251,7 @@
                     <div class="input-group">
                         <label>Nombres</label>
                         <input type="text" th:field="*{nombre}" readonly>
-                        <p class="helper">🔒 Tomado de tu registro seguro.</p>
+                        <p class="helper">Tomado de tu registro seguro.</p>
                     </div>
                     <div class="input-group">
                         <label>Apellidos</label>
@@ -287,7 +286,6 @@
             <!-- TARJETA 2: SALUD Y CONDICIONES -->
             <div class="form-card">
                 <div class="section-header">
-                    <div class="section-icon">🩺</div>
                     <h3 class="section-title">Salud Médica</h3>
                 </div>
 
@@ -296,19 +294,19 @@
                     <div class="chip-group">
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{condiciones}" value="anemia">
-                            <span class="chip-text">🩸 Anemia</span>
+                            <span class="chip-text">Anemia</span>
                         </label>
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{condiciones}" value="diabetes_gestacional">
-                            <span class="chip-text">🍬 Diabetes gestacional</span>
+                            <span class="chip-text">Diabetes gestacional</span>
                         </label>
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{condiciones}" value="hipertension">
-                            <span class="chip-text">❤️ Hipertensión</span>
+                            <span class="chip-text">Hipertensión</span>
                         </label>
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{condiciones}" value="problemas_tiroideos">
-                            <span class="chip-text">🦋 Problemas tiroideos</span>
+                            <span class="chip-text">Problemas tiroideos</span>
                         </label>
                     </div>
                 </div>
@@ -318,15 +316,15 @@
                     <div class="chip-group">
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{suplementos}" value="hierro">
-                            <span class="chip-text">💊 Hierro</span>
+                            <span class="chip-text">Hierro</span>
                         </label>
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{suplementos}" value="acido_folico">
-                            <span class="chip-text">🌿 Ácido fólico</span>
+                            <span class="chip-text">Ácido fólico</span>
                         </label>
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{suplementos}" value="calcio">
-                            <span class="chip-text">🥛 Calcio</span>
+                            <span class="chip-text">Calcio</span>
                         </label>
                     </div>
                 </div>
@@ -346,7 +344,6 @@
             <!-- TARJETA 3: SÍNTOMAS -->
             <div class="form-card">
                 <div class="section-header">
-                    <div class="section-icon">🤒</div>
                     <h3 class="section-title">Síntomas Actuales</h3>
                 </div>
 
@@ -355,27 +352,27 @@
                     <div class="chip-group">
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{sintomas}" value="nauseas">
-                            <span class="chip-text">🤢 Náuseas</span>
+                            <span class="chip-text">Náuseas</span>
                         </label>
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{sintomas}" value="vomitos">
-                            <span class="chip-text">🤮 Vómitos</span>
+                            <span class="chip-text">Vómitos</span>
                         </label>
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{sintomas}" value="acidez">
-                            <span class="chip-text">🔥 Acidez</span>
+                            <span class="chip-text">Acidez</span>
                         </label>
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{sintomas}" value="hinchazon">
-                            <span class="chip-text">🎈 Hinchazón</span>
+                            <span class="chip-text">Hinchazón</span>
                         </label>
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{sintomas}" value="dolor_lumbar">
-                            <span class="chip-text">⚡ Dolor lumbar</span>
+                            <span class="chip-text">Dolor lumbar</span>
                         </label>
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{sintomas}" value="fiebre">
-                            <span class="chip-text">🌡️ Fiebre</span>
+                            <span class="chip-text">Fiebre</span>
                         </label>
                     </div>
                 </div>
@@ -384,7 +381,6 @@
             <!-- TARJETA 4: ESTILO DE VIDA Y NUTRICIÓN -->
             <div class="form-card">
                 <div class="section-header">
-                    <div class="section-icon">🥗</div>
                     <h3 class="section-title">Estilo de Vida y Nutrición</h3>
                 </div>
 
@@ -393,23 +389,23 @@
                     <div class="chip-group">
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{habitos}" value="vegetariana">
-                            <span class="chip-text">🥕 Vegetariana</span>
+                            <span class="chip-text">Vegetariana</span>
                         </label>
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{habitos}" value="vegana">
-                            <span class="chip-text">🌱 Vegana</span>
+                            <span class="chip-text">Vegana</span>
                         </label>
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{habitos}" value="sin_cerdo">
-                            <span class="chip-text">🚫 Sin cerdo</span>
+                            <span class="chip-text">Sin cerdo</span>
                         </label>
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{habitos}" value="sin_lactosa">
-                            <span class="chip-text">🥛 Sin lactosa</span>
+                            <span class="chip-text">Sin lactosa</span>
                         </label>
                         <label class="chip-label">
                             <input type="checkbox" th:field="*{habitos}" value="sin_frutos_secos">
-                            <span class="chip-text">🥜 Sin frutos secos</span>
+                            <span class="chip-text">Sin frutos secos</span>
                         </label>
                     </div>
                 </div>
@@ -426,9 +422,9 @@
                         <div class="select-wrapper">
                             <select th:field="*{actividad}">
                                 <option value="" disabled selected>Selecciona tu nivel</option>
-                                <option value="sedentaria">🛋️ Sedentaria</option>
-                                <option value="ligera">🚶‍♀️ Ligera</option>
-                                <option value="moderada">🏃‍♀️ Moderada</option>
+                                <option value="sedentaria">Sedentaria</option>
+                                <option value="ligera">Ligera</option>
+                                <option value="moderada">Moderada</option>
                             </select>
                         </div>
                     </div>

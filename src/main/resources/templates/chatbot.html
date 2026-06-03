@@ -252,7 +252,7 @@
             border-bottom: 2px dashed rgba(196, 98, 126, 0.2);
         }
         .orb-avatar {
-            width: 54px; height: 54px;
+            width: 58px; height: 58px;
             background: linear-gradient(145deg, #FCC5C0, #C4627E);
             border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%;
             display: flex; align-items: center; justify-content: center;
@@ -705,10 +705,10 @@
             <!-- COLUMNA CENTRAL (CHAT PRINCIPAL) - IDs funcionales preservados -->
             <div class="panel chat-main-panel" id="chatMainView">
                 <div class="chat-header-orbital">
-                    <div class="orb-avatar">MB</div>
+                    <div class="orb-avatar"><img src="img/logo-preview.png" width="45px" height="45px"></div>
                     <div>
-                        <div class="orbital-name">MamaBot <span style="font-weight:300; font-size:13px; margin-left:8px;">· núcleo gestacional</span></div>
-                        <div class="orbital-status">conexión bio-neural activa</div>
+                        <div class="orbital-name">NutriMama</div>
+                        <div class="orbital-status">conexión activa</div>
                     </div>
                 </div>
 
@@ -722,7 +722,7 @@
                 </div>
 
                 <div class="send-area">
-                    <button class="quick-symptom" id="btnSeleccionarSintomas">📋 Selección Rápida de Síntomas</button>
+                    <button class="quick-symptom" id="btnSeleccionarSintomas">Selección Rápida de Síntomas</button>
                     <div class="send-field">
                         <input type="text" id="chatInput" placeholder="Escribe tu mensaje aquí...">
                         <button id="btnEnviar">
@@ -866,7 +866,7 @@
 
         function agregarMensaje(titulo, texto) {
             const chatBody = document.getElementById('chatBody');
-            const esBot = titulo === "MamaBot";
+            const esBot = titulo === "NutriMama";
             const div = document.createElement('div');
             div.className = `message-bubble ${esBot ? 'bot' : 'user'}`;
             
@@ -891,7 +891,7 @@
             typingDiv.id = 'typing-indicator';
             typingDiv.className = 'message-bubble bot';
             typingDiv.innerHTML = `
-                <div class="bubble-title">MamaBot</div>
+                <div class="bubble-title">NutriMama</div>
                 <div class="typing-dots"><span></span><span></span><span></span></div>
             `;
             chatBody.appendChild(typingDiv);
@@ -935,12 +935,12 @@
                 }
                 
                 const data = await response.json();
-                agregarMensaje("MamaBot", data.respuesta || "No pude procesar tu mensaje.");
+                agregarMensaje("NutriMama", data.respuesta || "No pude procesar tu mensaje.");
                 
                 if (data.titulo && data.sessionId) actualizarTituloChat(data.sessionId, data.titulo);
             } catch (error) {
                 eliminarTypingIndicator();
-                agregarMensaje("MamaBot", "❌ Lo siento, hubo un error de conexión.");
+                agregarMensaje("NutriMama", "❌ Lo siento, hubo un error de conexión.");
             }
         }
 
@@ -1009,9 +1009,9 @@
                 document.getElementById('chatBody').innerHTML = '';
 
                 if (data.mensajes && data.mensajes.length > 0) {
-                    data.mensajes.forEach(m => agregarMensaje(m.rol === "BOT" ? "MamaBot" : "Tú", m.contenido));
+                    data.mensajes.forEach(m => agregarMensaje(m.rol === "BOT" ? "NutriMama" : "Tú", m.contenido));
                 } else {
-                    agregarMensaje("MamaBot", "✨ Empecemos a conversar...");
+                    agregarMensaje("NutriMama", "Empecemos a conversar...");
                 }
 
                 document.querySelectorAll(".chat-cluster-btn").forEach(b => b.classList.remove("active"));
@@ -1029,7 +1029,7 @@
                 const session = await response.json();
                 
                 document.getElementById('chatBody').innerHTML = "";
-                agregarMensaje("MamaBot", "✨ Empecemos una nueva conversación.");
+                agregarMensaje("NutriMama", "Empecemos una nueva conversación.");
                 sesionesOrdenadas.unshift({ id: session.id, titulo: session.titulo, fijado: false, activa: true, fechaCreacion: new Date()});
                 renderizarSesiones();
                 if(window.innerWidth <= 900) cambiarVistaMovil('chat');
@@ -1041,7 +1041,7 @@
             sesionesOrdenadas.unshift({ id: sessionId, titulo: 'Nueva conversación', fijado: false, activa: true, fechaCreacion: new Date()});
             renderizarSesiones();
             document.getElementById('chatBody').innerHTML = "";
-            agregarMensaje("MamaBot", "✨ Empecemos (Modo Local).");
+            agregarMensaje("NutriMama", "Empecemos (Modo Local).");
             if(window.innerWidth <= 900) cambiarVistaMovil('chat');
         }
 

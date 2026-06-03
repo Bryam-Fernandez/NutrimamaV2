@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Fuentes elegantes -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Font Awesome para íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -22,11 +20,13 @@
 
         /* PALETA DE COLORES PERSONALIZADA */
         :root {
-            --color1: #ff9cf4;  /* Rosa claro */
+            --color1: #d63384;  /* Rosa Oscuro */
             --color2: #ffc3e1;  /* Rosa pastel */
             --color3: #3b0c1d;  /* Vino oscuro */
             --color4: #8f827e;  /* Gris/marrón suave */
             --color5: #fffaf2;  /* Crema/blanco hueso */
+            --color6: #000000;  /* Negro */
+            --color7: #ff1493;  /* Rosa claro */
         }
 
         body {
@@ -201,7 +201,7 @@
         }
 
         .btn-login:hover {
-            background: var(--color3);
+            background: var(--color1);
             transform: translateY(-2px);
             box-shadow: 0 15px 25px rgba(59, 12, 29, 0.4);
         }
@@ -219,14 +219,30 @@
             margin-bottom: 30px;
         }
 
-        .links a {
-            color: var(--color5);
-            text-decoration: none;
-            font-size: 14px;
+        /* ESTILOS DEL ENLACE DE REGISTRO (CREAR CUENTA) */
+        .register-prompt {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 15.5px; /* Un tamaño más delicado */
+            color: var(--color5); /* Usa tu color crema para legibilidad */
             font-weight: 500;
-            opacity: 0.9;
-            transition: opacity 0.3s;
-            text-shadow: 0 1px 3px rgba(59, 12, 29, 0.3);
+            letter-spacing: 0.3px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra suave para que no se pierda con el fondo */
+        }
+
+        .register-prompt span {
+            opacity: 0.9; /* Hace que la pregunta se vea un poco más suave */
+        }
+
+        .register-link {
+            color: var(--color2);
+            font-weight: 800;
+            text-decoration: none;
+            margin-left: 6px;
+            position: relative;
+            transition: color 0.3s ease;
+            text-transform: uppercase;
+            font-size: 14px;
         }
 
         .links a:hover {
@@ -265,10 +281,6 @@
 
         .social-btn.facebook {
             background: #1877f2;
-        }
-
-        .social-btn.google {
-            background: #db4437;
         }
 
         .social-btn:hover {
@@ -361,7 +373,7 @@
                     </div>
 
                     <!-- BOTÓN PRINCIPAL LOGIN -->
-                    <button type="submit" class="btn-login">Login</button>
+                    <button type="submit" class="btn-login">Iniciar sesion</button>
 
                     <!-- MENSAJES DE ESTADO -->
                     <div class="status error" id="errorMsg"></div>
@@ -370,22 +382,11 @@
             </div>
 
             <!-- ENLACES SECUNDARIOS -->
-            <div class="links">
-                <a href="#">Forgot Password?</a>
-                <a href="/register">Sign Up</a>
+            <div class="register-prompt">
+                <span>¿No tienes cuenta?</span>
+                <a href="/register" class="register-link">Crea una nueva aquí</a>
             </div>
 
-            <!-- BOTONES SOCIALES -->
-            <div class="social-buttons">
-                <button class="social-btn facebook" onclick="window.location.href='/oauth2/authorization/facebook'">
-                    <i class="fab fa-facebook-f"></i>
-                    Facebook
-                </button>
-                <button class="social-btn google" onclick="window.location.href='/oauth2/authorization/google'">
-                    <i class="fab fa-google"></i>
-                    Google
-                </button>
-            </div>
         </div>
     </div>
 
