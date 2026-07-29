@@ -384,7 +384,7 @@ public class ChatBotController {
         HttpClient client = HttpClient.newHttpClient();
 
         JSONObject body = new JSONObject();
-        body.put("model", "llama-3.1-70b-versatile"); // Modelo gratuito y potente
+        body.put("model", "llama-3.3-70b-versatile");
         body.put("temperature", 0.7);
         body.put("max_tokens", 500);
 
