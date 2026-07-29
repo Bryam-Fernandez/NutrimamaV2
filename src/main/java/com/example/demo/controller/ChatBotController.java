@@ -228,7 +228,7 @@ public class ChatBotController {
 
 
 		try {
-			String respuesta = callOllama(prompt);
+            String respuesta = callGemini(prompt);
 
 			ChatMessage msgBot = new ChatMessage();
 			msgBot.setSession(chatSession);
@@ -374,9 +374,64 @@ public class ChatBotController {
 	    }).collect(Collectors.toList());
 	}
 
+    private String callGemini(String userPrompt) throws IOException, InterruptedException {
+
+        String apiKey = System.getenv("GEMINI_API_KEY");
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        JSONObject content = new JSONObject();
+        JSONArray parts = new JSONArray();
+
+        parts.put(new JSONObject()
+                .put("text",
+                        """
+                        Eres MamaBot, una acompañante cálida y cercana durante el embarazo.
+                        Hablas como una persona real, con empatía y sencillez.
+                        Das consejos prácticos sin sonar médica ni técnica.
+    
+                        """ + userPrompt));
+
+        content.put("parts", parts);
+
+        JSONArray contents = new JSONArray();
+        contents.put(content);
+
+        JSONObject body = new JSONObject();
+        body.put("contents", contents);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(
+                        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="
+                                + apiKey))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(body.toString()))
+                .build();
 
 
-	private String callOllama(String userPrompt) throws IOException, InterruptedException {
+        HttpResponse<String> response =
+                client.send(request, HttpResponse.BodyHandlers.ofString());
+
+
+        if(response.statusCode() != 200){
+            throw new IOException("Error Gemini: " + response.body());
+        }
+
+
+        JSONObject json = new JSONObject(response.body());
+
+        return json
+                .getJSONArray("candidates")
+                .getJSONObject(0)
+                .getJSONObject("content")
+                .getJSONArray("parts")
+                .getJSONObject(0)
+                .getString("text");
+    }
+
+
+
+	/*private String callOllama(String userPrompt) throws IOException, InterruptedException {
 
 		HttpClient client = HttpClient.newHttpClient();
 
@@ -421,6 +476,6 @@ public class ChatBotController {
 
 		JSONObject json = new JSONObject(response.body());
 		return json.getJSONArray("choices").getJSONObject(0).getJSONObject("message").getString("content");
-	}
+	}*/
 
 }
