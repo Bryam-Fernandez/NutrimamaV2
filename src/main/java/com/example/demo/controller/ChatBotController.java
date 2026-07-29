@@ -228,7 +228,7 @@ public class ChatBotController {
 
 
 		try {
-            String respuesta = callGemini(prompt);
+            String respuesta = callGroq(prompt);
 
 			ChatMessage msgBot = new ChatMessage();
 			msgBot.setSession(chatSession);
@@ -374,60 +374,58 @@ public class ChatBotController {
 	    }).collect(Collectors.toList());
 	}
 
-    private String callGemini(String userPrompt) throws IOException, InterruptedException {
+    private String callGroq(String userPrompt) throws IOException, InterruptedException {
+        String apiKey = System.getenv("GROQ_API_KEY");
 
-        String apiKey = System.getenv("GEMINI_API_KEY");
+        if (apiKey == null || apiKey.isBlank()) {
+            throw new IOException("GROQ_API_KEY no configurada en variables de entorno");
+        }
 
         HttpClient client = HttpClient.newHttpClient();
 
-        JSONObject content = new JSONObject();
-        JSONArray parts = new JSONArray();
-
-        parts.put(new JSONObject()
-                .put("text",
-                        """
-                        Eres MamaBot, una acompañante cálida y cercana durante el embarazo.
-                        Hablas como una persona real, con empatía y sencillez.
-                        Das consejos prácticos sin sonar médica ni técnica.
-    
-                        """ + userPrompt));
-
-        content.put("parts", parts);
-
-        JSONArray contents = new JSONArray();
-        contents.put(content);
-
         JSONObject body = new JSONObject();
-        body.put("contents", contents);
+        body.put("model", "llama-3.1-70b-versatile"); // Modelo gratuito y potente
+        body.put("temperature", 0.7);
+        body.put("max_tokens", 500);
+
+        JSONArray messages = new JSONArray();
+
+        JSONObject system = new JSONObject();
+        system.put("role", "system");
+        system.put("content", """
+            Eres MamaBot, una acompañante cálida y cercana durante el embarazo.
+            Hablas como una persona real, con empatía y sencillez.
+            Das consejos prácticos sin sonar médica ni técnica.
+            """);
+
+        JSONObject user = new JSONObject();
+        user.put("role", "user");
+        user.put("content", userPrompt);
+
+        messages.put(system);
+        messages.put(user);
+        body.put("messages", messages);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(
-                        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey))
+                .uri(URI.create("https://api.groq.com/openai/v1/chat/completions"))
                 .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + apiKey)
                 .POST(HttpRequest.BodyPublishers.ofString(body.toString()))
                 .build();
 
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
-
-
-        if(response.statusCode() != 200){
-            throw new IOException("Error Gemini: " + response.body());
+        if (response.statusCode() != 200) {
+            System.err.println("❌ Error Groq: " + response.body());
+            throw new IOException("Error Groq (" + response.statusCode() + "): " + response.body());
         }
 
-
         JSONObject json = new JSONObject(response.body());
-
-        return json
-                .getJSONArray("candidates")
+        return json.getJSONArray("choices")
                 .getJSONObject(0)
-                .getJSONObject("content")
-                .getJSONArray("parts")
-                .getJSONObject(0)
-                .getString("text");
+                .getJSONObject("message")
+                .getString("content");
     }
-
 
 
 	/*private String callOllama(String userPrompt) throws IOException, InterruptedException {
