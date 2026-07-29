@@ -402,7 +402,7 @@ public class ChatBotController {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(
-                        "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key="
+                        "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key="
                                 + apiKey))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(body.toString()))
