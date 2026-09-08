@@ -310,20 +310,16 @@ public class ChatBotController {
 	        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
 	    }
 
-	    // 🔑 obtener la sesión de chat
 	    ChatSession sessionDb = chatSessionRepository.findById(id)
 	            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-	    // 🔐 validar que el chat pertenece al usuario
 	    if (!sessionDb.getUserId().equals(userId)) {
 	        throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 	    }
 
-	    // 🗑️ eliminar mensajes y sesión
 	    chatMessageRepository.deleteBySessionId(id);
 	    chatSessionRepository.deleteById(id);
 
-	    // 🧹 limpiar sesión activa si era ese chat
 	    Long activeSessionId = (Long) session.getAttribute("chatSessionId");
 	    if (activeSessionId != null && activeSessionId.equals(id)) {
 	        session.removeAttribute("chatSessionId");
@@ -384,7 +380,7 @@ public class ChatBotController {
         HttpClient client = HttpClient.newHttpClient();
 
         JSONObject body = new JSONObject();
-        body.put("model", "llama-3.3-70b-versatile");
+        body.put("model", "openai/gpt-oss-20b");
         body.put("temperature", 0.7);
         body.put("max_tokens", 500);
 
